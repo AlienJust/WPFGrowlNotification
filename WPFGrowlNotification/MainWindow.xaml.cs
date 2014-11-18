@@ -73,8 +73,9 @@ namespace WPFGrowlNotification {
 		}
 
 		protected override void OnClosed(EventArgs e) {
-			(_notificationsContainer as Window).Close();
-			base.OnClosed(e);
+		    var window = _notificationsContainer as Window;
+		    if (window != null) window.Close();
+		    base.OnClosed(e);
 		}
 
 	    private void ButtonClickCloseLastNotification(object sender, RoutedEventArgs e) {
