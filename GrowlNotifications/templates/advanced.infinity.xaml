@@ -132,14 +132,6 @@
 			                 Storyboard.TargetProperty="Opacity"
 			                 To="0" />
         </Storyboard>
-
-        <Storyboard x:Key="CloseButtonPressedStoryboard">
-            <DoubleAnimation Duration="0:0:1"
-			                 From="1"
-			                 Storyboard.TargetName="NotificationVisualRoot"
-			                 Storyboard.TargetProperty="Opacity"
-			                 To="0" />
-        </Storyboard>
     </DataTemplate.Resources>
 
     <!--  HINT: Notification must have root visual element with binded to ViewModel property "Id" tag, it's used to remove notifications  -->
