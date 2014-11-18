@@ -73,7 +73,7 @@ namespace WpfGrowlNotifications {
 							}
 							throw new Exception("Problems with file stream");
 						}
-						throw new Exception("Cannot open template file, file not exist");
+					    throw new Exception("Cannot open template file, file " + templateFile +"not exist");
 					}
 				}
 				throw new Exception("Item type is " + item.GetType().FullName + ", interface " + typeof(INotification).FullName + " not implemented");

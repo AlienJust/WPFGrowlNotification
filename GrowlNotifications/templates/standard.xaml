@@ -128,6 +128,7 @@
         </Storyboard>
     </DataTemplate.Resources>
 
+    
     <!--  HINT: Notification must have root visual element with binded to ViewModel property "Id" tag, it's used to remove notifications  -->
     <Grid x:Name="NotificationVisualRoot"
 	      Width="300"
@@ -203,6 +204,7 @@
     </Grid>
 
 
+    
     <DataTemplate.Triggers>
         <EventTrigger RoutedEvent="Loaded" SourceName="NotificationVisualRoot">
             <BeginStoryboard x:Name="PlayFadeInWaitFadeOutStoryboard" Storyboard="{StaticResource FadeInWaitFadeOutStoryboard}" />
