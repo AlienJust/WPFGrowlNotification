@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
+using Microsoft.Win32;
 using WpfGrowlNotifications;
 
 namespace WPFGrowlNotification {
@@ -8,6 +10,7 @@ namespace WPFGrowlNotification {
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow {
+	    private const string TemplatesDirectoryPath = "Templates";
 		private readonly INotificationsContainer _notificationsContainer;
 	    private readonly List<Guid> _addedIds;
 		public MainWindow() {
@@ -30,7 +33,7 @@ namespace WPFGrowlNotification {
 		        "Mesage #2",
 		        "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
 		        DateTime.Now.ToString("yyyy.MM.dd-HH:mm:ss"),
-		        "template1.xaml",
+		        Path.Combine(TemplatesDirectoryPath, "template1.xaml"),
 		        () => MessageBox.Show("time has gone"),
 		        () => MessageBox.Show("broadcast close"),
 		        closeNotificationAction => {
@@ -51,7 +54,7 @@ namespace WPFGrowlNotification {
 		        "Title of msg #3",
 		        "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
 		        DateTime.Now.ToString("yyyy.MM.dd-HH:mm:ss"),
-		        "template2.xaml",
+		        Path.Combine(TemplatesDirectoryPath, "template2.xaml"),
 		        () => MessageBox.Show("time has gone"),
 		        () => MessageBox.Show("broadcast close"),
 		        closeNotificationAction => {
@@ -80,6 +83,27 @@ namespace WPFGrowlNotification {
                 var guidToRemove = _addedIds[indexToRemove];
                 _addedIds.RemoveAt(indexToRemove);
                 _notificationsContainer.SetNotificationToRemove(guidToRemove);
+	        }
+	    }
+
+	    private void ButtonClickAddCustomSampleNotification(object sender, RoutedEventArgs e) {
+	        var dialog = new OpenFileDialog {InitialDirectory = Path.Combine(typeof (MainWindow).GetAssemblyDirectoryPath(), TemplatesDirectoryPath), Filter = "XAML templates | *.xaml", Multiselect = true};
+	        var dialogResult = dialog.ShowDialog();
+	        if (dialogResult.HasValue && dialogResult.Value) {
+	            foreach (var fileName in dialog.FileNames) {
+	                var id = _notificationsContainer.AddNotification(
+	                    "Custom message",
+	                    "Long long time ago\nIn a galaxy far away",
+	                    DateTime.Now.ToString("yyyy.MM.dd-HH:mm:ss"),
+	                    fileName,
+	                    () => MessageBox.Show("time has gone"),
+	                    () => MessageBox.Show("broadcast close"),
+	                    closeNotificationAction => {
+	                        MessageBox.Show("User request closing custom message...");
+	                        closeNotificationAction();
+	                    });
+	                _addedIds.Add(id);
+	            }
 	        }
 	    }
 	}

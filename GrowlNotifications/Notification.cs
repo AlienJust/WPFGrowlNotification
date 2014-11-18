@@ -59,7 +59,6 @@ namespace WpfGrowlNotifications {
 						_userActions[n].Invoke(()=>_notificationsContainer.SetNotificationToRemove(_id));
 					}
 				}
-
 			}
 			catch {
 				// TODO: remove empty catch
