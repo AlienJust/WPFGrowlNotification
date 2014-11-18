@@ -82,8 +82,8 @@ namespace WpfGrowlNotifications {
 		}
 
 		private void RemoveLinksUnsubscribeEventsSetCloseFlag() {
-			_closedNotifyLine.Changed -= ClosedLineChanged;
 			_notificationsContainer.RemoveNotification(_id); // Self removing from container
+            _closedNotifyLine.Changed -= ClosedLineChanged;
 		}
 
 	    public void SetNeedToCloseBroadcast() {

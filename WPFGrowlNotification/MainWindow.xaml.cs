@@ -99,10 +99,7 @@ namespace WPFGrowlNotification {
 	                    fileName,
 	                    () => MessageBox.Show("time has gone"),
 	                    () => MessageBox.Show("broadcast close"),
-	                    closeNotificationAction => {
-	                        MessageBox.Show("User request closing custom message...");
-	                        closeNotificationAction();
-	                    });
+	                    closeNotificationAction => closeNotificationAction());
 	                _addedIds.Add(id);
 	            }
 	        }

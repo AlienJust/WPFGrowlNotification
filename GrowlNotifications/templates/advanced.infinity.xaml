@@ -135,10 +135,9 @@
     </DataTemplate.Resources>
 
     <!--  HINT: Notification must have root visual element with binded to ViewModel property "Id" tag, it's used to remove notifications  -->
-    <Grid x:Name="NotificationVisualRoot"
-	      Width="300"
-	      HorizontalAlignment="Right"
-	      Background="Transparent">
+    <Grid x:Name="NotificationVisualRoot">
+        <Grid Name="UserDefinedVisualPart"
+              Width="300">
         <Border Name="border"
 		        Margin="10"
 		        Background="#00ABBA"
@@ -208,6 +207,8 @@
             </Grid>
         </Border>
     </Grid>
+        <Grid Name="DeactivationPart" Background="#01FFFFFF" Opacity="0.01"  Visibility="Hidden"/>
+    </Grid>
 
 
     <DataTemplate.Triggers>
@@ -218,7 +219,8 @@
         <!--  HINT: Mouse over prevent notification from fadeout  -->
         <MultiDataTrigger>
             <MultiDataTrigger.Conditions>
-                <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="True" />
+                <Condition Binding="{Binding ElementName=UserDefinedVisualPart, Path=IsMouseOver}" Value="True" />
+                <Condition Binding="{Binding ElementName=DeactivationPart, Path=Visibility}" Value="Hidden" />
                 <Condition Binding="{Binding Path=IsCloseNeeded}" Value="False" />
             </MultiDataTrigger.Conditions>
             <MultiDataTrigger.EnterActions>
@@ -243,6 +245,7 @@
 
         <!--  If close needed from VM - have to seek animation beyond the normal fade out -->
         <DataTrigger Binding="{Binding Path=IsCloseNeeded}" Value="True">
+            <Setter TargetName="DeactivationPart" Property="Visibility" Value="Visible" />
             <DataTrigger.EnterActions>
                 <SeekStoryboard BeginStoryboardName="PlayFadeInWaitFadeOutStoryboard"  Offset="99.23:0:6.001" />
                 <ResumeStoryboard BeginStoryboardName="PlayFadeInWaitFadeOutStoryboard" />

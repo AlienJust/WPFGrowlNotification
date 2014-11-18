@@ -137,36 +137,35 @@
 			                 To="0" />
         </Storyboard>
     </DataTemplate.Resources>
-    
-    
+
+
     <!--  HINT: Notification must have root visual element with binded to ViewModel property "Id" tag, it's used to remove notifications  -->
-    <Grid x:Name="NotificationVisualRoot"
-	      Width="400"
-	      HorizontalAlignment="Right"
-	      Background="Transparent">
-        <Border Name="border"
+    <Grid x:Name="NotificationVisualRoot">
+        <Grid Name="UserDefinedVisualPart"
+              Width="400">
+            <Border Name="border"
 		        Margin="10"
 		        Background="#2a3345"
 		        BorderThickness="0"
 		        CornerRadius="10">
-            <Border.Effect>
-                <DropShadowEffect BlurRadius="10"
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10"
 				                  Opacity="0.8"
 				                  ShadowDepth="0" />
-            </Border.Effect>
+                </Border.Effect>
 
-            <Grid Margin="6">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Margin="2,4,4,2"
+                <Grid Margin="6">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="2,4,4,2"
 				           VerticalAlignment="Center"
 				           FontFamily="Arial"
 				           FontSize="14"
@@ -178,8 +177,8 @@
 				           TextTrimming="CharacterEllipsis"
 				           TextWrapping="Wrap" />
 
-                <!--  HINT: button's command is binded to VM command  -->
-                <Button Grid.Column="1"
+                    <!--  HINT: button's command is binded to VM command  -->
+                    <Button Grid.Column="1"
 				        Width="18"
 				        Height="18"
 				        Margin="0,0,12,0"
@@ -188,7 +187,7 @@
 				        CommandParameter="0"
 				        Content="X"
 				        Style="{StaticResource CloseButton}" />
-                <TextBlock Grid.Row="1"
+                    <TextBlock Grid.Row="1"
 				           Margin="2,2,4,4"
 				           VerticalAlignment="Center"
 				           FontFamily="Arial"
@@ -198,7 +197,7 @@
 				           TextOptions.TextRenderingMode="ClearType"
 				           TextTrimming="CharacterEllipsis"
 				           TextWrapping="Wrap" />
-                <Button x:Name="UserButton0"
+                    <Button x:Name="UserButton0"
 				        Grid.Row="2"
 				        Width="100"
 				        Height="20"
@@ -207,7 +206,7 @@
 				        Command="{Binding UserCommand}"
 				        CommandParameter="1"
 				        Content="User action 1" />
-                <Button Grid.Row="2"
+                    <Button Grid.Row="2"
 				        Width="100"
 				        Height="20"
 				        Margin="112,2,4,4"
@@ -215,7 +214,7 @@
 				        Command="{Binding UserCommand}"
 				        CommandParameter="2"
 				        Content="User action 2" />
-                <TextBlock Grid.Row="3"
+                    <TextBlock Grid.Row="3"
 				           Margin="2,2,4,4"
 				           VerticalAlignment="Center"
 				           FontFamily="Arial"
@@ -226,12 +225,13 @@
 				           TextOptions.TextRenderingMode="ClearType"
 				           TextTrimming="CharacterEllipsis"
 				           TextWrapping="Wrap" />
-            </Grid>
-        </Border>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid Name="DeactivationPart" Background="#01FFFFFF" Opacity="0.01" Visibility="Hidden" />
     </Grid>
 
 
-    
     <DataTemplate.Triggers>
         <EventTrigger RoutedEvent="Loaded" SourceName="NotificationVisualRoot">
             <BeginStoryboard x:Name="PlayFadeInWaitFadeOutStoryboard" Storyboard="{StaticResource FadeInWaitFadeOutStoryboard}" />
@@ -240,7 +240,8 @@
         <!--  HINT: Mouse over prevent notification from fadeout  -->
         <MultiDataTrigger>
             <MultiDataTrigger.Conditions>
-                <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="True" />
+                <Condition Binding="{Binding ElementName=UserDefinedVisualPart, Path=IsMouseOver}" Value="True" />
+                <Condition Binding="{Binding ElementName=DeactivationPart, Path=Visibility}" Value="Hidden" />
                 <Condition Binding="{Binding Path=IsCloseNeeded}" Value="False" />
             </MultiDataTrigger.Conditions>
             <MultiDataTrigger.EnterActions>
@@ -265,6 +266,7 @@
 
         <!--  If close needed from VM - have to seek animation beyond the normal fade out -->
         <DataTrigger Binding="{Binding Path=IsCloseNeeded}" Value="True">
+            <Setter TargetName="DeactivationPart" Property="Visibility" Value="Visible" />
             <DataTrigger.EnterActions>
                 <SeekStoryboard BeginStoryboardName="PlayFadeInWaitFadeOutStoryboard"  Offset="0:0:16.001" />
                 <ResumeStoryboard BeginStoryboardName="PlayFadeInWaitFadeOutStoryboard" />
