@@ -71,9 +71,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContainerPosition.cs" />
-    <Compile Include="DesginTest1.xaml.cs">
-      <DependentUpon>DesginTest1.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ExtensionsForPresentationFrameworkWindow.cs" />
     <Compile Include="RelayCommandWithParameter.cs" />
     <Compile Include="GrowlNotificationsWindowViewModel.cs" />
@@ -90,10 +87,6 @@
     <Compile Include="RelayCommand.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DesginTest1.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="GrowlNotifications.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
