@@ -57,11 +57,10 @@ namespace WpfGrowlNotifications {
 
 
 	    private void WaitForAction() {
-            
 	        while (true) {
-                if (StopTrheadTs) break;
+                if (StopThreadTs) break;
 	            _signalUserActionAdded.WaitOne(1000);
-                if (StopTrheadTs) break;
+                if (StopThreadTs) break;
 
                 int count;
 	            lock (_sync) {
@@ -69,7 +68,7 @@ namespace WpfGrowlNotifications {
 	            }
 
 	            while (count > 0) {
-	                if (StopTrheadTs) break;
+	                if (StopThreadTs) break;
 	                Action action;
 	                lock (_syncUserActions) {
 	                    action = _userActions[0];
@@ -86,9 +85,9 @@ namespace WpfGrowlNotifications {
 	                    count--;
 	                }
 
-	                if (StopTrheadTs) break;
+	                if (StopThreadTs) break;
 	            }
-                if (StopTrheadTs) break;
+                if (StopThreadTs) break;
 	        }
 
 	        _userActions.Clear();
@@ -101,7 +100,7 @@ namespace WpfGrowlNotifications {
 	        _signalUserActionAdded.Set();
 	    }
 
-	    private bool StopTrheadTs {
+	    private bool StopThreadTs {
 	        get {
 	            lock (_syncUserActions) {
 	                return _stopThread;
@@ -153,7 +152,7 @@ namespace WpfGrowlNotifications {
 		}
 
 		public void DestroyContainer() {
-		    StopTrheadTs = true;
+		    StopThreadTs = true;
 		    _userActionsThread.Join();
 
 			Action action = Close;
