@@ -21,7 +21,6 @@ namespace WPFGrowlNotification {
 				"Glow notifications",
 				6,
 				1, 
-				ContainerPosition.Left, 
 				10, 
 				10, 
 				10, 

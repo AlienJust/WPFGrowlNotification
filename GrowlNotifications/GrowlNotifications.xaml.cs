@@ -13,8 +13,6 @@ namespace WpfGrowlNotifications {
 	    private readonly byte _maxNotifications;
 		private readonly Dispatcher _threadNotify;
 		private readonly int _zeroBasedMonitorIndex;
-		private readonly ContainerPosition _horziontalAlignment;
-
 
 		private readonly int _leftOffset;
 		private readonly int _topOffset;
@@ -29,14 +27,13 @@ namespace WpfGrowlNotifications {
 
 	    private readonly GrowlNotificationsWindowViewModel _viewModel;
 
-        public GrowlNotifications(DataTemplateSelector customTemplateSelector, string containerWindowTitle, byte maxNotifications, int zeroBasedMonitorIndex, ContainerPosition horziontalAlignment, int leftOffset, int topOffset, int rightOffset, int bottomOffset)
+        public GrowlNotifications(DataTemplateSelector customTemplateSelector, string containerWindowTitle, byte maxNotifications, int zeroBasedMonitorIndex, int leftOffset, int topOffset, int rightOffset, int bottomOffset)
         {
             _viewModel = new GrowlNotificationsWindowViewModel(containerWindowTitle, customTemplateSelector, new Notifications(), new Notifications());
             DataContext = _viewModel;
 
 			_maxNotifications = maxNotifications;
 			_zeroBasedMonitorIndex = zeroBasedMonitorIndex;
-			_horziontalAlignment = horziontalAlignment;
 			_leftOffset = leftOffset;
 			_topOffset = topOffset;
 			_rightOffset = rightOffset;
