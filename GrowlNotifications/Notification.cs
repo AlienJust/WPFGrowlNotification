@@ -71,6 +71,7 @@ namespace WpfGrowlNotifications {
 					try {
 						if (!_isClosed) {
 							_isClosed = true;
+                            IsCloseNeeded = true;
 							if (_timeoutAction != null) _timeoutAction();
 						}
 					}
@@ -83,7 +84,7 @@ namespace WpfGrowlNotifications {
 
 		private void RemoveLinksUnsubscribeEventsSetCloseFlag() {
 			_notificationsContainer.RemoveNotification(_id); // Self removing from container
-            _closedNotifyLine.Changed -= ClosedLineChanged;
+            _notificationsContainer.ExecOnGuiThread(()=>_closedNotifyLine.Changed -= ClosedLineChanged);
 		}
 
 	    public void SetNeedToCloseBroadcast() {

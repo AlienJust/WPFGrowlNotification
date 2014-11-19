@@ -99,7 +99,7 @@
 			                 To="0" />
             <!--  HINT: Dirty solution to notify viewModel about collapse:  -->
             <PointAnimationUsingKeyFrames Storyboard.TargetProperty="DataContext.Close.EndPoint">
-                <EasingPointKeyFrame KeyTime="0:0:0.1" Value="1,1" />
+                <EasingPointKeyFrame KeyTime="0:0:0.2" Value="1,1" />
             </PointAnimationUsingKeyFrames>
         </Storyboard>
 
@@ -213,7 +213,7 @@
         <MultiDataTrigger>
             <MultiDataTrigger.Conditions>
                 <Condition Binding="{Binding ElementName=UserDefinedVisualPart, Path=IsMouseOver}" Value="True" />
-                <Condition Binding="{Binding ElementName=DeactivationPart, Path=Visibility}" Value="Hidden" />
+                <!--<Condition Binding="{Binding ElementName=DeactivationPart, Path=Visibility}" Value="Hidden" />-->
                 <Condition Binding="{Binding Path=IsCloseNeeded}" Value="False" />
             </MultiDataTrigger.Conditions>
             <MultiDataTrigger.EnterActions>
@@ -221,7 +221,7 @@
                 <PauseStoryboard BeginStoryboardName="PlayFadeInWaitFadeOutStoryboard" />
             </MultiDataTrigger.EnterActions>
             <MultiDataTrigger.ExitActions>
-                <SeekStoryboard BeginStoryboardName="PlayFadeInWaitFadeOutStoryboard" Offset="0:0:5" />
+                <SeekStoryboard BeginStoryboardName="PlayFadeInWaitFadeOutStoryboard" Offset="0:0:1" />
                 <ResumeStoryboard BeginStoryboardName="PlayFadeInWaitFadeOutStoryboard" />
             </MultiDataTrigger.ExitActions>
         </MultiDataTrigger>
