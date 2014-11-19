@@ -125,12 +125,9 @@ namespace WpfGrowlNotifications {
 	                message,
 	                footer,
 	                xamlDefinitionPath,
-	                timeoutAction,
+	                () => AddUserAction(timeoutAction),
 	                () => AddUserAction(closedBroadcastAction),
 	                userActions.Select(ua => (Action<Action>) (i => AddUserAction(() => ua(i)))).ToArray());
-                   // {
-	                   // HorizontalPosition = _horziontalAlignment == ContainerPosition.Left ? "Left" : "Right"
-	                //};
 
 	            lock (_sync) {
 	                if (_viewModel.VisibleNotifications.Count >= _maxNotifications)
@@ -151,7 +148,7 @@ namespace WpfGrowlNotifications {
 			_threadNotify.Invoke(action);
 		}
 
-		public void DestroyContainer() {
+	    public void DestroyContainer() {
 		    StopThreadTs = true;
 		    _userActionsThread.Join();
 

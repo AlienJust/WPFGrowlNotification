@@ -213,7 +213,6 @@
             <MultiDataTrigger.Conditions>
                 <Condition Binding="{Binding ElementName=UserDefinedVisualPart, Path=IsMouseOver}" Value="True" />
                 <Condition Binding="{Binding ElementName=DeactivationPart, Path=Visibility}" Value="Hidden" />
-                <Condition Binding="{Binding Path=IsCloseNeeded}" Value="False" />
             </MultiDataTrigger.Conditions>
             <MultiDataTrigger.EnterActions>
                 <SeekStoryboard BeginStoryboardName="PlayFadeInWaitFadeOutStoryboard" Offset="0:0:1" />
@@ -228,6 +227,7 @@
 
         <!--  When root bisual element became fully transparent, it must be collapsed  -->
         <Trigger SourceName="NotificationVisualRoot" Property="Opacity" Value="0">
+            <Setter TargetName="DeactivationPart" Property="Visibility" Value="Visible" />
             <Trigger.EnterActions>
                 <PauseStoryboard BeginStoryboardName="PlayFadeInWaitFadeOutStoryboard" />
                 <BeginStoryboard Storyboard="{StaticResource CollapseStoryboard}" />
