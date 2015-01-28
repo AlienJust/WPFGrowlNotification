@@ -75,7 +75,7 @@ namespace WpfGrowlNotifications {
 	                }
 
 	                try {
-	                    action();
+	                    if (action != null) action();
 	                }
 	                catch {
 	                    //swallow exception
