@@ -54,6 +54,7 @@ namespace WPFGrowlNotification {
 		        "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
 		        DateTime.Now.ToString("yyyy.MM.dd-HH:mm:ss"),
 		        Path.Combine(TemplatesDirectoryPath, "template2.xaml"),
+				//Path.Combine(TemplatesDirectoryPath, "std_green_forever.xaml"),
 		        () => MessageBox.Show("time has gone"),
 		        () => MessageBox.Show("broadcast close"),
 		        closeNotificationAction => {

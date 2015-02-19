@@ -104,22 +104,18 @@
             </PointAnimationUsingKeyFrames>
         </Storyboard>
 
-        <Storyboard x:Key="FadeInWaitFadeOutStoryboard">
-            <DoubleAnimation Duration="0:0:1"
+        <Storyboard x:Key="FadeIn">
+            <DoubleAnimation BeginTime="0:0:0.0"
+					         Duration="0:0:1.0"
 			                 From="0.01"
 			                 Storyboard.TargetName="NotificationVisualRoot"
 			                 Storyboard.TargetProperty="Opacity"
 			                 To="1" />
-
-            <!--  HINT: BeginTimeBelow defines how long notification need to stay visible before fadeout  -->
+		</Storyboard>
+		<!--  HINT: BeginTimeBelow defines how long notification need to stay visible before fadeout  -->
             <!--  HINT: And Duration below defines fadeout time  -->
-            <DoubleAnimation BeginTime="99.23:0:5"
-			                 Duration="0:0:5"
-			                 From="1"
-			                 Storyboard.TargetName="NotificationVisualRoot"
-			                 Storyboard.TargetProperty="Opacity"
-			                 To="0" />
-            <DoubleAnimation BeginTime="99.23:0:11"
+		<Storyboard x:Key="FadeOut">	
+            <DoubleAnimation BeginTime="0:0:0.0"
 			                 Duration="0:0:0.5"
 			                 From="0.8"
 			                 Storyboard.TargetName="NotificationVisualRoot"
@@ -205,27 +201,10 @@
 
     <DataTemplate.Triggers>
         <EventTrigger RoutedEvent="Loaded" SourceName="NotificationVisualRoot">
-            <BeginStoryboard x:Name="PlayFadeInWaitFadeOutStoryboard" Storyboard="{StaticResource FadeInWaitFadeOutStoryboard}" />
+            <BeginStoryboard x:Name="PlayFadeInWaitFadeOutStoryboard" Storyboard="{StaticResource FadeIn}" />
         </EventTrigger>
 
-        <!--  HINT: Mouse over prevent notification from fadeout  -->
-        <MultiDataTrigger>
-            <MultiDataTrigger.Conditions>
-                <Condition Binding="{Binding ElementName=UserDefinedVisualPart, Path=IsMouseOver}" Value="True" />
-                <Condition Binding="{Binding ElementName=DeactivationPart, Path=Visibility}" Value="Hidden" />
-            </MultiDataTrigger.Conditions>
-            <MultiDataTrigger.EnterActions>
-                <SeekStoryboard BeginStoryboardName="PlayFadeInWaitFadeOutStoryboard" Offset="0:0:1" />
-                <PauseStoryboard BeginStoryboardName="PlayFadeInWaitFadeOutStoryboard" />
-            </MultiDataTrigger.EnterActions>
-            <MultiDataTrigger.ExitActions>
-                <SeekStoryboard BeginStoryboardName="PlayFadeInWaitFadeOutStoryboard" Offset="0:0:5" />
-                <ResumeStoryboard BeginStoryboardName="PlayFadeInWaitFadeOutStoryboard" />
-            </MultiDataTrigger.ExitActions>
-        </MultiDataTrigger>
-
-
-        <!--  When root bisual element became fully transparent, it must be collapsed  -->
+        <!--  When root visual element became fully transparent, it must be collapsed  -->
         <Trigger SourceName="NotificationVisualRoot" Property="Opacity" Value="0">
             <Setter TargetName="DeactivationPart" Property="Visibility" Value="Visible" />
             <Trigger.EnterActions>
@@ -239,9 +218,9 @@
         <DataTrigger Binding="{Binding Path=IsCloseNeeded}" Value="True">
             <Setter TargetName="DeactivationPart" Property="Visibility" Value="Visible" />
             <DataTrigger.EnterActions>
-                <SeekStoryboard BeginStoryboardName="PlayFadeInWaitFadeOutStoryboard"  Offset="99.23:0:11.001" />
-                <ResumeStoryboard BeginStoryboardName="PlayFadeInWaitFadeOutStoryboard" />
-            </DataTrigger.EnterActions>
+                <StopStoryboard BeginStoryboardName="PlayFadeInWaitFadeOutStoryboard"/>
+				<BeginStoryboard x:Name="PlayFadeOut" Storyboard="{StaticResource FadeOut}" />
+			</DataTrigger.EnterActions>
         </DataTrigger>
     </DataTemplate.Triggers>
 </DataTemplate>
